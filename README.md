@@ -1,2 +1,2 @@
 # -
-solve soduko with z3
+solve sudoko with z3
