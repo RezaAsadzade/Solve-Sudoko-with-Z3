@@ -45,3 +45,26 @@ if s.check() == sat:
     print_matrix(r)
 else:
     print("failed to solve")
+
+# بدست آوردن تمامی راه حل های مسئله سودوکو
+
+instance_c = [ If(instance[i][j] == 0,
+                  True,
+                  X[i][j] == instance[i][j])
+               for i in range(9) for j in range(9) ]    
+
+def n_solutions(n):
+    s = Solver()
+    s.add(sudoku_c + instance_c)
+    count = 0
+    while s.check() == sat and count < n:
+        m = s.model()
+        print(count)
+        for i in range(9):
+            print([ m.evaluate(X[i][j]) for j in range(9)])
+        print("\n")
+        fml = And([X[i][j] == m.evaluate(X[i][j]) for i in range(9) for j in range(9)])
+        s.add(Not(fml))
+        count += 1
+        
+n_solutions(10)
